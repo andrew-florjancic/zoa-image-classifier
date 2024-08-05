@@ -1,7 +1,5 @@
 import os
-from skimage.io import imread
-from skimage.transform import resize
-import numpy
+import FileManager
 from sklearn.decomposition import PCA
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
@@ -10,21 +8,7 @@ from sklearn.multiclass import OneVsRestClassifier
 from sklearn.metrics import accuracy_score
 
 training_path = os.path.join(__file__, '..\sample-images\\training-images')
-
-data = []
-labels = []
-# Fetch the image data from the training folder
-for folder in os.listdir(training_path):
-    for file in os.listdir(os.path.join(training_path, folder)):
-        image_path = os.path.join(training_path, folder, file)
-        image = imread(image_path)
-        resized_image = resize(image, (100, 100))
-        image_data = resized_image.flatten()
-        data.append(image_data)
-        labels.append(folder)
-
-image_data = numpy.asarray(data)
-image_labels = numpy.asarray(labels)
+image_data, image_labels = FileManager.get_training_data(path=training_path, image_size=100)
 
 # Reduce dimensions of training and test data with Principal Component Analysis
 pca = PCA(n_components=10)
@@ -54,10 +38,10 @@ test_path = training_path = os.path.join(__file__, '..\sample-images\\test-image
 
 # Classify each of the sample test images
 for file in os.listdir(training_path):
-    image = imread(os.path.join(training_path, file))
-    resized_image = resize(image, (100, 100))
-    image_data = resized_image.flatten()
-    image_data = numpy.asarray(image_data).reshape(1, -1)
-    image_data = pca.transform(image_data)
-    prediction = model.predict(image_data)
+    image_path = os.path.join(test_path, file)
+    image_data = FileManager.get_image_data(path=image_path, size=100)
+    # The models are expecting a 2D array so the single sample needs to be reshaped
+    reshaped_image_data = image_data.reshape(1, -1)
+    transformed_image_data = pca.transform(reshaped_image_data)
+    prediction = model.predict(transformed_image_data)
     print(f'{file}:{prediction}')
