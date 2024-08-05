@@ -1,7 +1,8 @@
+#  Copyright (c) 2024. Andrew Florjancic
+
 """
 Basic module to display loading state information to the user
 """
-
 
 def loading(message: str):
     """

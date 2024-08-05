@@ -1,6 +1,9 @@
+#  Copyright (c) 2024. Andrew Florjancic
+
 """
 Basic file manager module to get training and test data.
 """
+
 import os
 from pathlib import Path
 from skimage.io import imread

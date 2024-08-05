@@ -1,3 +1,5 @@
+#  Copyright (c) 2024. Andrew Florjancic
+
 import numpy
 from sklearn.svm import SVC
 from sklearn.model_selection import GridSearchCV

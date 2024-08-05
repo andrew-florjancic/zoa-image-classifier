@@ -1,3 +1,5 @@
+#  Copyright (c) 2024. Andrew Florjancic
+
 import sys
 from pathlib import Path
 import FileManager
