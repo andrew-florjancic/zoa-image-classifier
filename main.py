@@ -15,7 +15,6 @@ if args.train is not None:
     # Train the machine learning model with the training data
     ProgressIndicator.loading('Training model...')
     model = ClassificationModel()
-    print(model.image_size)
     image_data, image_labels = FileManager.get_training_data(path=args.train, image_size=model.image_size)
     score = model.train(data=image_data, labels=image_labels)
     FileManager.save_model(model=model, path=args.saved_model)
